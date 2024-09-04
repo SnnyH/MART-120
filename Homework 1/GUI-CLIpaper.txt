@@ -1,0 +1,10 @@
+User interfaces are the way in which we communicate to computers and software our desires. There are two types of user interfaces, GUI and CLI. 
+A GUI or Guided User Interface is what you will find in many software apps and on your electronics operating systems and consists of buttons and icons. 
+A CLI on the other hand (Command line interface) takes our commands in the form of text and code. An example is windows powershell and command prompt,
+ which is on all windows pcs. 
+
+Both types of user interfaces have their place. For example GUI's have the advantage of being easy to use, and easy to understand through their visual representation.
+On the other hand CLI's are much faster and consume much less resources. However they have the disadvantage of having a steep learning curve and being unintuitive.
+While GUI's can limit you in functionality, CLI's can leave you wondering what to do in the first place. 
+
+I personally don't see either of these going anywhere anytime soon, though maybe in the far future the only user interface will be a prompt with an ai?
