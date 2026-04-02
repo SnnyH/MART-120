@@ -47,8 +47,8 @@ function draw() {
   stroke(0);
   line(170, 290, 230, 290);
   //nostrils
-  point(192, 255); // left nostril
-  point(208, 255); // right nostril
+  point(192, 255);
+  point(208, 255);
 
  
 }
