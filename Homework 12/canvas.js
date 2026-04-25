@@ -11,7 +11,7 @@ var d = 68;
 //obstacles
 var shape1X = 50;
 var shape1Y = 60;
-var shape1XSpeed;
+var shape1XSpeed; 
 var shape1YSpeed;
 var shape1Size = 30;
 

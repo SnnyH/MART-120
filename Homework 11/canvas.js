@@ -37,7 +37,7 @@ function setup()
     createCharacter(100, 300);
 }
 
-function draw()
+function draw() 
 {
     background(120,45,78);
     stroke(0);
