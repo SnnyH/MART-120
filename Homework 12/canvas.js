@@ -1,6 +1,7 @@
 //mc location
 var characterX = 100;
 var characterY = 100;
+
 //wasd
 var w = 87; 
 var s = 83;
@@ -13,6 +14,7 @@ var shape1Y = 60;
 var shape1XSpeed;
 var shape1YSpeed;
 var shape1Size = 30;
+
 var shape2X = 300;
 var shape2Y = 200;
 var shape2XSpeed;
@@ -40,30 +42,69 @@ function setup()
 function draw()
 {
     background(120,45,78);
-    stroke(0);
-    fill(0);
-    
-    //dr.'s w/o borders
-    createBorders(10);
 
-    //win con
-    fill(255);
-    textSize(16);
-    text("EXIT", width - 45, height / 2);
-    
-    //mc 
+    createBorders(10);
+    createExit();
     drawCharacter();
     characterMovement();
+    createObstacles();
+    moveObstacle1();
+    moveObstacle2();
+    drawMouseObstacle();
+    displayWinMessage();
+}
 
-    //obstacle 1
+//move speed
+function characterMovement()
+{
+    if(keyIsDown(w))
+    {
+        characterY -= 5;   
+    }
+    if(keyIsDown(s))
+    {
+        characterY += 5;   
+    }
+    if(keyIsDown(a))
+    {
+        characterX -= 5;   
+    }
+    if(keyIsDown(d))
+    {
+        characterX += 5;   
+    }
+}
+
+function createCharacter(x,y)
+{
+    characterX = x;
+    characterY = y;
+}
+
+function drawCharacter()
+{
+    fill(23,40,123);
+    triangle(
+        characterX, characterY - 20,
+        characterX - 20, characterY + 20,
+        characterX + 20, characterY + 20
+    );
+}
+
+function createObstacles()
+{
     fill(13,145,14);
     rect(shape1X, shape1Y, shape1Size, shape1Size);
 
-    //move obstacle 1
+    fill(0, 120, 255);
+    rect(shape2X, shape2Y, shape2Size, shape2Size);
+}
+
+function moveObstacle1()
+{
     shape1X += shape1XSpeed;
     shape1Y += shape1YSpeed;
 
-    //wrap obstacle 1
     if(shape1X > width)
     {
         shape1X = 0;
@@ -81,16 +122,13 @@ function draw()
     {
         shape1Y = height;
     }
+}
 
-    //obstacle 2
-    fill(0, 120, 255);
-    rect(shape2X, shape2Y, shape2Size, shape2Size);
-
-    //move obstacle 2
+function moveObstacle2()
+{
     shape2X += shape2XSpeed;
     shape2Y += shape2YSpeed;
 
-    //wrap obstacle 2
     if(shape2X > width)
     {
         shape2X = 0;
@@ -108,12 +146,44 @@ function draw()
     {
         shape2Y = height;
     }
+}
 
-    //create obstacle
-    fill(120,130,140);
-    rect(mouseShapeX, mouseShapeY, mouseShapeSize, mouseShapeSize);
+function drawMouseObstacle()
+{
+    if(mouseShapeX != undefined && mouseShapeY != undefined)
+    {
+        fill(120,130,140);
+        rect(mouseShapeX, mouseShapeY, mouseShapeSize, mouseShapeSize);
+    }
+}
 
-    // check to see if mc has escaoed
+function createBorders(thickness)
+{
+    fill(0);
+
+    // top border
+    rect(0, 0, width, thickness);
+
+    // left border
+    rect(0, 0, thickness, height);
+
+    // bottom border
+    rect(0, height - thickness, width, thickness);
+
+    // right border with middle exit opening
+    rect(width - thickness, 0, thickness, height/2 - 50);
+    rect(width - thickness, height/2 + 50, thickness, height/2 - 50);
+}
+
+function createExit()
+{
+    fill(255);
+    textSize(16);
+    text("EXIT", width - 45, height / 2);
+}
+
+function displayWinMessage()
+{
     if(characterX > width - 20 && characterY > height/2 - 50 && characterY < height/2 + 50)
     {
         fill(255);
@@ -121,59 +191,6 @@ function draw()
         textSize(26);
         text("You Win!", width/2 - 50, height/2 - 50);
     }
-}
-//move speed
-function characterMovement()
-{
-    // handle the keys
-    if(keyIsDown(w))
-    {
-        characterY -= 5;   
-    }
-    if(keyIsDown(s))
-    {
-        characterY += 5;   
-    }
-    if(keyIsDown(a))
-    {
-        characterX -= 5;   
-        console.log("movement: " + characterX);
-    }
-    if(keyIsDown(d))
-    {
-        characterX += 5;   
-    }
-}
-
-function createCharacter(x,y)
-{
-    characterX = x;
-    characterY = y;
-    console.log(characterX);
-}
-
-function drawCharacter()
-{
-    fill(23,40,123);
-    triangle(
-        characterX, characterY - 20,
-        characterX - 20, characterY + 20,
-        characterX + 20, characterY + 20
-    );
-}
-
-function createBorders(thickness)
-{
-    // top border
-    rect(0, 0, width, thickness);
-    // left border
-    rect(0, 0, thickness, height);
-    // bottom border
-    rect(0, height - thickness, width, thickness);
-
-    // right border with middle exit opening
-    rect(width - thickness, 0, thickness, height/2 - 50);
-    rect(width - thickness, height/2 + 50, thickness, height/2 - 50);
 }
 
 function mouseClicked()
