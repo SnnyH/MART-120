@@ -6,36 +6,39 @@ function setup() {
 
   //one shape to start
   shapes.push({
-    points: [
-      createVector(0, 0),
-      createVector(width, 0),
-      createVector(width, height),
-      createVector(0, height)
-    ],
-    col: color(random(255), random(255), random(255))
-  });
+  points: [
+    createVector(0, 0),
+    createVector(width, 0),
+    createVector(width, height),
+    createVector(0, height)
+  ],
+  col: color(random(255), random(255), random(255)),
+  offset: random(1000),
+  speed: random(0.01, 0.03)
+});
 }
 
 function draw() {
-  background(220);
+  background(0, 0, 0);
 
   //more shape :D
   noStroke();
   for (var i = 0; i < shapes.length; i++) {
-    fill(shapes[i].col);
-    beginShape();
-    for (var j = 0; j < shapes[i].points.length; j++) {
-      vertex(shapes[i].points[j].x, shapes[i].points[j].y);
-    }
-    endShape(CLOSE);
-  }
+  var moveX = sin(frameCount * shapes[i].speed + shapes[i].offset) * 3;
+  var moveY = cos(frameCount * shapes[i].speed + shapes[i].offset) * 3;
 
-  //linesss
-  stroke(0);
-  strokeWeight(2);
-  for (var k = 0; k < lines.length; k++) {
-    line(lines[k].x1, lines[k].y1, lines[k].x2, lines[k].y2);
+  push();
+  translate(moveX, moveY);
+
+  fill(shapes[i].col);
+  beginShape();
+  for (var j = 0; j < shapes[i].points.length; j++) {
+    vertex(shapes[i].points[j].x, shapes[i].points[j].y);
   }
+  endShape(CLOSE);
+
+  pop();
+}
 }
 
 function mousePressed() {
@@ -69,43 +72,46 @@ function splitShapes(newLine) {
   var newShapes = [];
 
   for (var i = 0; i < shapes.length; i++) {
-    var leftSide = [];
-    var rightSide = [];
+  var leftSide = [];
+  var rightSide = [];
 
-    var points = shapes[i].points;
+  var points = shapes[i].points;
 
-    for (var j = 0; j < points.length; j++) {
-      var current = points[j];
-      var next = points[(j + 1) % points.length];
+  for (var j = 0; j < points.length; j++) {
+  var current = points[j];
+  var next = points[(j + 1) % points.length];
 
-      var currentSide = sideOfLine(current, newLine);
-      var nextSide = sideOfLine(next, newLine);
+  var currentSide = sideOfLine(current, newLine);
+  var nextSide = sideOfLine(next, newLine);
 
-      if (currentSide >= 0) {
-        leftSide.push(current);
-      } else {
-        rightSide.push(current);
-      }
+    if (currentSide >= 0) {
+      leftSide.push(current);
+    } else {
+      rightSide.push(current);
+    }
 
-      if ((currentSide >= 0 && nextSide < 0) || (currentSide < 0 && nextSide >= 0)) {
-        var intersection = getIntersection(current, next, newLine);
-
-        if (intersection != null) {
-          leftSide.push(intersection);
-          rightSide.push(intersection);
+    if ((currentSide >= 0 && nextSide < 0) || (currentSide < 0 && nextSide >= 0)) {
+      var intersection = getIntersection(current, next, newLine);
+       if (intersection != null) {
+        leftSide.push(intersection);
+        rightSide.push(intersection);
         }
       }
     }
 
     if (leftSide.length >= 3 && rightSide.length >= 3) {
       newShapes.push({
-        points: leftSide,
-        col: color(random(255), random(255), random(255))
+      points: leftSide,
+      col: color(random(255), random(255), random(255)),
+      offset: random(1000),
+      speed: random(0.01, 0.03)
       });
 
       newShapes.push({
-        points: rightSide,
-        col: color(random(255), random(255), random(255))
+      points: rightSide,
+      col: color(random(255), random(255), random(255)),
+      offset: random(1000),
+      speed: random(0.01, 0.03)
       });
     } else {
       newShapes.push(shapes[i]);
@@ -149,8 +155,8 @@ function getIntersection(p1, p2, lineData) {
 //f it new colors
 function keyPressed() {
   if (key == 'f' || key == 'F') {
-    for (var i = 0; i < shapes.length; i++) {
-      shapes[i].col = color(random(255), random(255), random(255));
+  for (var i = 0; i < shapes.length; i++) {
+    shapes[i].col = color(random(255), random(255), random(255));
     }
   }
 }
